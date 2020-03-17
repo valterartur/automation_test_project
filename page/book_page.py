@@ -10,9 +10,6 @@ class BookPage(BasePage):
             *BookPageLocators.ADD_TO_BUSKET_LINK)
         add_to_busket_button.click()
 
-    def check_discount(self):
-        assert self.solve_quiz_and_get_code() == True, "There is no discount"
-
     def check_name_of_book(self):
         book_name = self.browser.find_element(
             *BookPageLocators.BOOK_NAME).text
@@ -31,3 +28,18 @@ class BookPage(BasePage):
             *BookPageLocators.BUSKET_TOTAL_SUM).text
         assert clear_price(book_price) == clear_price(
             busket_total_sum), "Book names don't match"
+
+    def no_succes_message_after_adding(self):
+        assert self.is_not_element_present(
+            *BookPageLocators.SUCCESFUL_ADDED_ALERT_DIV
+        ) == True, ("Succes message is present")
+
+    def no_succes_message_by_default(self):
+        assert self.is_not_element_present(
+            *BookPageLocators.SUCCESFUL_ADDED_ALERT_DIV
+        ) == True, ("Succes message is present on start page")
+
+    def succes_message_disapeared(self):
+        assert self.is_disappeared(
+            *BookPageLocators.SUCCESFUL_ADDED_ALERT_DIV
+        ) == True, ("Succes message doesn't disappear")
